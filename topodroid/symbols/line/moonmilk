@@ -1,0 +1,13 @@
+encoding utf-8
+symbol line
+name moonmilk
+th_name moonmilk
+color 0xffffcc 0xff
+width 1
+effect
+  moveTo 0 0
+  cubicTo 4 -16 16 -16 20 0
+  lineTo 20 -1
+  cubicTo 16 -17 4 -17 0 -1
+endeffect
+endsymbol

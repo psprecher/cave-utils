@@ -1,0 +1,15 @@
+encoding utf-8
+symbol point
+name bedrock
+th_name bedrock
+orientation no
+color 0xdddddd
+path
+  moveTo -5 0
+  lineTo 5 0
+  moveTo -2 -3
+  lineTo -2 0
+  moveTo 2 0
+  lineTo 2 3
+endpath
+endsymbol

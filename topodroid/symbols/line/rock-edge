@@ -1,0 +1,9 @@
+encoding utf-8
+symbol line
+name rock-edge
+th_name rock-edge
+closed no
+style straight x2
+color 0xaaaaaa 0xff
+width 1
+endsymbol

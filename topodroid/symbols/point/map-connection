@@ -1,0 +1,17 @@
+encoding utf-8
+symbol point
+name map-connection
+th_name map-connection
+orientation no
+color 0xcccccc
+path
+  moveTo -5 0
+  lineTo 5 0
+  moveTo 0 -5
+  lineTo 0 5
+  lineTo 5 0
+  lineTo 0 -5
+  lineTo -5 0
+  lineTo 0 5
+endpath
+endsymbol

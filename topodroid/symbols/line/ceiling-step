@@ -1,0 +1,19 @@
+encoding utf-8
+symbol line
+name ceiling-step
+th_name ceiling-step
+group ceiling
+color 0xcc00cc 0xff
+width 1
+dash 15 5
+effect
+  moveTo 0 0
+  lineTo 15 0
+  lineTo 15 1
+  lineTo 8 1
+  lineTo 8 7
+  lineTo 7 7
+  lineTo 7 1
+  lineTo 0 1
+endeffect
+endsymbol
