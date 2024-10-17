@@ -1,0 +1,13 @@
+encoding utf-8
+##XTHERION## xth_me_area_adjust -100.0 -100.0 100.0 100.0
+##XTHERION## xth_me_area_zoom_to 25
+
+# 2024.10.13 created by TopoDroid v. 6.2.85
+
+scrap Beast_Cave-entrances -projection extended -scale [0 0 39.3701 0 0 0 1 0 m]
+
+
+
+
+endscrap
+

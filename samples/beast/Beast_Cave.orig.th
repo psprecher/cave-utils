@@ -1,0 +1,55 @@
+encoding utf-8
+# 2024.09.21 created by TopoDroid v 6.2.85
+
+survey Beast_Cave -title "Beast Cave"
+    # Small breakdown room 
+
+  centerline
+    date 2023.04.29 
+    # team Peter Anderson-Sprecher
+    units length meters
+    units compass clino degrees
+    data normal from to length compass clino
+    # extend auto
+    0 . 1.49 86.1 -0.2
+    0 . 1.36 273.7 -5.4
+    0 . 1.26 344.7 -11.0
+    extend vertical
+    0 1 1.94 192.3 -86.7
+    # extend auto
+    1 . 0.77 168.2 74.2
+    extend right
+    1 . 2.13 109.8 2.1
+    # extend auto
+    1 . 2.45 145.3 1.6
+    1 . 2.34 188.5 -1.2
+    extend left
+    1 . 2.30 265.9 5.6
+    # extend auto
+    1 . 1.16 345.2 35.4
+    extend right
+    1 2 4.37 98.0 -15.7
+    1 . 1.35 68.8 46.3
+    extend left
+    1 . 1.79 275.3 38.9
+  endcenterline
+
+  # input "Beast_Cave-entrancep.th2"
+  # input "Beast_Cave-entrances.th2"
+  # input "Beast_Cave-floorp.th2"
+  # input "Beast_Cave-floors.th2"
+
+  # map mentrancep -projection plan
+  #   Beast_Cave-entrancep
+  # endmap
+  # map mentrances -projection extended
+  #   Beast_Cave-entrances
+  # endmap
+  # map mfloorp -projection plan
+  #   Beast_Cave-floorp
+  # endmap
+  # map mfloors -projection extended
+  #   Beast_Cave-floors
+  # endmap
+
+endsurvey
