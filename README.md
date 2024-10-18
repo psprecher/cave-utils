@@ -22,7 +22,9 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
    6. Use 'label' and/or 'arrow' to annotate the map with comments. Therion will render these even outside the map walls.
    7. Avoid station cross sections. When making line cross sections, therion will draw the arrows at the ends of the cross section line, and this is not adjustable after the fact, so get it right the first time. The square box is moveable and will indicate where the cross section is rendered, so if the cross section overlaps the map in the rendered map try adjusting this and re-rendering.
 2. Export the centerline (.th) and all sketches (.th2) in TopoDroid
-3. Copy all exported files to a working folder for your map
-4. Edit your `.th` map.
-5. Edit your `thconfig`. Grab from `samples/beast/thconfig` if you need a starting template.
-6. Open therion (`xtherion`) and compile!
+   1. When exporting sketches, set a finer point spacing (e.g. 0.05) to avoid therion rendering artifacts like gaps in the walls
+   2. Select 'plan and profile' to make the process of going through all your sketches and exporting faster
+4. Copy all exported files to a working folder for your map
+5. Edit your `.th` map.
+6. Edit your `thconfig`. Grab from `samples/beast/thconfig` if you need a starting template.
+7. Open therion (`xtherion`) and compile!
