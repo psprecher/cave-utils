@@ -15,7 +15,7 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
 
 1. Sketch the cave. A few tips for better results:
    1. Avoid using line type 'user'. This will not render well on the map. I make miscellaneous objects out of 'rock-border' (everything is a rock).
-   2. Recommend setting line style to 'bezier' or regular'
+   2. Recommend setting line style to 'bezier' or regular'. If you intend to use `xtherion` to edit the sketch, use `bezier` as it can't handle large point densities.
    3. Keep wall orientations facing in. In TopoDroid, this corresopnds to drawing walls counter-clockwise around interior cave regions
    4. Recommend enabling the 'line join' feature to better connect walls.
    5. Use 'ceiling-step' (provided in `topodroid/` rather than the TD default `chimney` for domes.
