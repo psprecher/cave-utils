@@ -28,3 +28,7 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
 5. Edit your `.th` map.
 6. Edit your `thconfig`. Grab from `samples/beast/thconfig` if you need a starting template.
 7. Open therion (`xtherion`) and compile!
+
+## Python utilities
+
+There are miscellaneous python utilities for map and data management in `utils/`. To run, first `source activate` to set up the python venv and required pip deps.
