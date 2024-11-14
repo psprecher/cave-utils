@@ -1,7 +1,9 @@
 # therion-topodroid
 Cave mapping utilities
 
-This contains miscellanous utilities I find helpful for quickly and easily generating maps in [Therion](https://therion.speleo.sk/) based on sketches in [TopoDroid](https://sites.google.com/site/speleoapps/home/topodroid).
+This contains miscellanous utilities I find helpful, mostly for quickly and easily generating maps in [Therion](https://therion.speleo.sk/) based on sketches in [TopoDroid](https://sites.google.com/site/speleoapps/home/topodroid).
+
+All code is GPL-Licensed due to heavy sharing with Therion/TopoDroid, which are both under GPL.
 
 ## Setup
 
@@ -31,4 +33,4 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
 
 ## Python utilities
 
-There are miscellaneous python utilities for map and data management in `utils/`. To run, first `source activate` to set up the python venv and required pip deps.
+Some utilities are based in python- all pip requirements are in `requirements.txt`, these are not split out by utility. To run, use `source activate` to set up the python venv and required pip deps. The venv will be created in the `build` directory.
