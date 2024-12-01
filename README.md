@@ -27,10 +27,11 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
    1. When exporting sketches, set a finer point spacing (e.g. 0.05) to avoid therion rendering artifacts like gaps in the walls
    2. Select 'plan and profile' to make the process of going through all your sketches and exporting faster
 4. Copy all exported files to a working folder for your map
-5. Edit your `.th` map.
+5. Edit your `.th` map and centerline- topodroid comments out the map commands so you need to add those back in at a minimum.
 6. Edit your `thconfig`. Grab from `samples/beast/thconfig` if you need a starting template.
-7. Open therion (`xtherion`) and compile to PDF.
-8. For further touch-up, or to combing plan/profile views into a single view, use your favorite vector editor (inkscape/illustrator).
+7. Open therion (`xtherion` for GUI version) and compile to PDF.
+8. If there are errors in the map, you can either go back into topodroid to touch up and re-export, or post-edit the `.th2` files using xtherion or inkscape using the inkscape-speleo extension.
+9. For further touch-up, or to combine plan/profile views into a single view, use your favorite vector editor (inkscape/illustrator).
 
 ## Python utilities
 
