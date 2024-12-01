@@ -29,7 +29,8 @@ This is my typical mapping workflow for single-sketch caves. See the therion doc
 4. Copy all exported files to a working folder for your map
 5. Edit your `.th` map.
 6. Edit your `thconfig`. Grab from `samples/beast/thconfig` if you need a starting template.
-7. Open therion (`xtherion`) and compile!
+7. Open therion (`xtherion`) and compile to PDF.
+8. For further touch-up, or to combing plan/profile views into a single view, use your favorite vector editor (inkscape/illustrator).
 
 ## Python utilities
 
