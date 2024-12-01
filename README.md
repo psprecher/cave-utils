@@ -7,8 +7,8 @@ All code is GPL-Licensed due to heavy sharing with Therion/TopoDroid, which are 
 
 ## Setup
 
-1. Install TopoDroid and Therion per their instructions. Make sure to use the apk version of TopoDroid (TopoDroid-X) rather than the google play version.
-2. Add the data files in `topodroid/` to topo droid, `data/com.TopoDroid.TDX/files/...`
+1. Install TopoDroid and Therion per their instructions.
+2. Add the symboils in `topodroid/` to topo droid, `data/com.TopoDroid.TDX/files/...` (topodroid does not include some common therion symbols by default)
 3. Recommend compiling samples from `samples/` folder and/or the therion-provided samples to ensure your therion setup is working.
 
 ## Mapping Workflow
