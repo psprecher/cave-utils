@@ -1,0 +1,12 @@
+encoding  utf-8
+source edited/Beast_Cave.th
+
+#!PROCESS
+#!TITLE 2 Primary therion config file
+
+layout default 
+  legend on
+  code metapost
+    def testdef
+      defpoint
+    enddef;

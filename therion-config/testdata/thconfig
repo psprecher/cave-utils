@@ -1,0 +1,48 @@
+encoding  utf-8
+source edited/Beast_Cave.th
+
+#!PROCESS
+#!TITLE 2 Primary therion config file
+
+layout default 
+  # Add NSS-style symbol for clay/mud.
+  code metapost
+    def p_clay (expr pos,theta,sc,al)=
+        U:=(.6u,.4u);
+        T:=identity aligned al rotated theta scaled sc shifted pos;
+        pickup PenC;
+        p:=(-.15u,.0u) -- (0.15u,.0u);
+        thdraw p shifted (0.4u,.-0.1u);
+        thdraw p shifted (-0.4u,-0.1u);
+        thdraw p shifted (0u,0.25u);
+    enddef;
+
+  symbol-assign line survey UIS
+  legend on
+  legend-width 14 cm
+  legend-columns 2
+  scale 4 200   # Default 1 200
+
+  # Author and subtitle 
+  doc-author "Peter Anderson-Sprecher"
+  map-comment "San Saba County, TX"
+endlayout
+
+# Modified layout for profile: Paint water in blue color.
+layout water-blue
+  copy default
+  code metapost
+    def a_water (expr p) =
+      T:=identity;
+      thfill p withcolor (0.0, 0.5, 1.0);
+    enddef;
+endlayout
+
+select map-plan@Beast_Cave
+select map-profile@Beast_Cave
+
+export map -projection plan -output out/pdf/plan.pdf \
+  -layout default -layout-map-header -10 50 e
+
+export map -projection extended -output out/pdf/profile.pdf \
+  -layout water-blue -layout-map-header -10 50 e

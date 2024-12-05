@@ -7,13 +7,7 @@ import jsonschema
 
 class TherionConfigParser:
     def __init__(self):
-        self.data = {
-            "encoding": None,
-            "source": None,
-            "layouts": {},
-            "select": [],
-            "export": []
-        }
+        self.data = {'value': '', 'children': {}}
         
     def parse_file(self, filepath: str, schema: Dict[str, Any]) -> Dict[str, Any]:
         """Parse a Therion config file and return a JSON-compatible dict."""
@@ -33,13 +27,15 @@ class TherionConfigParser:
         #
         # We only support therion files that use 2-space indentation.
         parent_items = []
+        last_key = None
         while i < len(lines):
+            line = lines[i].strip()
+
             # Skip comments and empty lines
             if line.strip().startswith('#') or not line.strip():
                 i += 1
                 continue
 
-            line = lines[i].strip()
             if append_line:
                 line = append_line + ' ' + line
                 append_line = ''
@@ -53,92 +49,91 @@ class TherionConfigParser:
                 i += 1
                 continue
 
-            # Ignore 'end' lines- these are implicitly handled through indentation. Note that
+            # Ignore other 'end' lines- these are implicitly handled through indentation. Note that
             # this is probably stricter regarding indentation than Therion itself.
-            if line.startswith('end'):
+            if line.startswith('end') and line.rstrip().isalpha():
                 i += 1
                 continue
+
+            (key, value) = line.split(maxsplit=1)
+
+            # 'def' keys in metapost code blocks have implicit continuation lines until 'enddef;' is encountered.
+            # We need to collect all lines between 'def' and 'enddef;' into a single value.
+            if key == 'def':
+                code_lines = [value]
+                while i + 1 < len(lines):
+                    i += 1
+                    lstrip = min(len(lines[i]) - len(lines[i].lstrip()), indent_level * 2)
+                    next_line = lines[i][lstrip:].rstrip()
+                    code_lines.append(next_line)
+                    if next_line == 'enddef;':
+                        line = '\n'.join(code_lines)
+                        break
+                value = '\n'.join(code_lines)
+                print(f"code block: {value}")
 
             if indent_level > len(parent_items):
                 # We skipped an indentation level- this is an error
                 raise ValueError(f"Indentation error: {line}")
 
+            # Trim the parent_items list to the current indentation level if we
+            # popped out an indentation level
             parent_items = parent_items[:indent_level]
+            parent_item = self.data if not parent_items else parent_items[-1]
 
-            (key, value) = line.split(maxsplit=1)
-            # Default to self.data if we don't have a parent item
-            parent_item = parent_items[-1] if parent_items else self.data
-            parent_item[key] = parent_item.get(key, []) + [value]
+            new_item = {'value': value}
+            if 'children' not in parent_item:
+                parent_item['children'] = {}
+            parent_item['children'][key] = parent_item['children'].get(key, []) + [new_item]
 
-            # Parse encoding
-            if line.startswith('encoding'):
-                self.data['encoding'] = line.split()[1]
-                
-            # Parse source
-            elif line.startswith('source'):
-                self.data['source'] = line.split()[1]
-                
-            # Parse layout blocks
-            elif line.startswith('layout'):
-                layout_name = line.split()[1]
-                current_layout = {}
-                self.data['layouts'][layout_name] = current_layout
-                i += 1
-                
-                # Process layout block
-                while i < len(lines) and not lines[i].strip().startswith('layout'):
-                    layout_line = lines[i].strip()
-                    
-                    # Handle code blocks
-                    if layout_line.startswith('code'):
-                        code_type = layout_line.split()[1]
-                        code_content = []
-                        i += 1
-                        while i < len(lines) and not lines[i].strip().startswith('enddef;'):
-                            code_content.append(lines[i])
-                            i += 1
-                        if code_type not in current_layout:
-                            current_layout['code'] = {}
-                        current_layout['code'][code_type] = ''.join(code_content)
-                    
-                    # Handle simple key-value pairs
-                    elif layout_line and not layout_line.startswith('#'):
-                        try:
-                            key, *values = layout_line.split()
-                            # Handle numeric values
-                            if all(v.isdigit() for v in values):
-                                current_layout[key] = [int(v) for v in values]
-                            else:
-                                current_layout[key] = ' '.join(values).strip('"')
-                        except ValueError:
-                            pass
-                    i += 1
-                continue
-                
-            # Parse select statements
-            elif line.startswith('select'):
-                self.data['select'].append(line.split()[1])
-                
-            # Parse export statements
-            elif line.startswith('export'):
-                export_data = {}
-                export_parts = re.findall(r'-(\w+(?:-\w+)*)\s+([^-][^\s]*)', line)
-                for key, value in export_parts:
-                    if key == 'layout-map-header':
-                        # Parse the three values for layout-map-header
-                        header_values = value.split()
-                        export_data[key] = [
-                            float(header_values[0]),
-                            float(header_values[1]),
-                            header_values[2]
-                        ]
-                    else:
-                        export_data[key] = value
-                self.data['export'].append(export_data)
-                
+            # push the current item to the parent items list, in case the next item is nested
+            parent_items.append(new_item)
+
             i += 1
+
+        return self.data['children']
+
+    def print_file(self, data: Dict[str, Any], indent_level: int = 0) -> str:
+        """Convert a parsed Therion config dict back to file format.
+        
+        Args:
+            data: Dict in the format returned by parse_file()
+            indent_level: Current indentation level (used recursively)
             
-        return self.data
+        Returns:
+            String containing the Therion config file contents
+        """
+        output = []
+        indent = "  " * indent_level  # Use 2 spaces per level to match parse_file
+        
+        # Process each key and its list of values
+        for key, value_list in data.items():
+            for item in value_list:
+                # Get the value and any children
+                value = item.get('value', '')
+                children = item.get('children', {})
+                
+                # Handle special case of metapost def blocks
+                if key == 'def':
+                    # Split the value back into lines and maintain indentation
+                    lines = value.split('\n')
+                    output.append(f"{indent}{key} {lines[0]}")
+                    for line in lines[1:]:
+                        output.append(f"{indent}{line}")
+                else:
+                    # Output the key-value pair
+                    output.append(f"{indent}{key} {value}")
+                
+                # Recursively process any children with increased indentation
+                if children:
+                    child_output = self.print_file(children, indent_level + 1)
+                    output.append(child_output)
+                    
+                    # Add an 'end' line for certain block types that need it
+                    if key in ['layout', 'map', 'centerline', 'survey']:
+                        output.append(f"{indent}end{key}")
+        
+        return '\n'.join(output)
 
     def validate_against_schema(self, schema: Dict[str, Any]) -> bool:
         """Validate the parsed data against the provided JSON schema."""
@@ -160,14 +155,20 @@ def main():
     if len(sys.argv) < 2:
         print("Please provide a config filename as argument")
         sys.exit(1)
-    config_data = parser.parse_file(sys.argv[1])
+    config_data = parser.parse_file(sys.argv[1], schema)
+
+    print(config_data)
     
     # Validate against schema
-    if parser.validate_against_schema(schema):
-        print("Config file successfully validated against schema")
+    # if parser.validate_against_schema(schema):
+    #     print("Config file successfully validated against schema")
         
     # Print the resulting JSON
     print(json.dumps(config_data, indent=2))
+
+    print("================")
+    print(parser.print_file(config_data))
+
 
 if __name__ == "__main__":
     main()
